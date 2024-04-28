@@ -1,4 +1,4 @@
-# private-ai
+# private-codegpt
 private ollama model for CodeGPT plugin for your IDE on Hetzner Infra
 https://docs.codegpt.co/docs/tutorial-ai-providers/ollama
 
