@@ -1,5 +1,5 @@
-python 3.12.2
-terragrunt 0.55.19
-terraform 1.7.5
+python 3.12.3
+terragrunt 0.57.12
+terraform 1.8.2
 terraform-docs 0.17.0
 tfsec 1.28.5
