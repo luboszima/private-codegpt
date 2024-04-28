@@ -130,27 +130,13 @@ write_files:
         ollama:
           image: ollama/ollama:latest
           container_name: ollama
-          expose:
-            - 11434
+          ports:
+            - 127.0.0.1:11434:11434
           volumes:
             - /home/${user_name}/data/ollama:/root/.ollama
           networks:
             - ollama_net
           restart: always
-
-        webui:
-          image: ghcr.io/open-webui/open-webui
-          container_name: webui
-          ports:
-            - 127.0.0.1:8080:8080
-          networks:
-            - ollama_net
-          environment:
-            - OLLAMA_BASE_URL=http://ollama:11434
-            - ENABLE_SIGNUP=true
-          volumes:
-            - /home/${user_name}/data/webui:/app/backend/data
-            - /home/${user_name}/data/docs:/data/docs
 
       networks:
         ollama_net:
