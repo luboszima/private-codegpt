@@ -106,20 +106,3 @@ tasks:
     aliases:
       - webui
     cmd: bash scripts/port-forward.sh
-
-  # upload rag docs to remote server
-  upload-rag-docs:
-    preconditions:
-      - command -v scp
-    aliases:
-      - rag-docs
-      - upload
-    cmds:
-      - bash scripts/upload-rag-docs.sh
-      - task: restart-webui
-
-  # restart webui service on remote server
-  restart-webui:
-    preconditions:
-      - command -v ssh
-    cmd: bash scripts/restart-webui.sh
