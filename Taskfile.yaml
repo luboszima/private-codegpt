@@ -69,7 +69,7 @@ tasks:
     aliases:
       - destroy
     cmds:
-      - yes | terragrunt run-all destroy --terragrunt-working-dir ./terragrunt/ai/server
+      - yes | terragrunt run-all destroy --terragrunt-working-dir ./terragrunt/
 
   # reset terragrunt resources
   tg-reset:
@@ -106,3 +106,10 @@ tasks:
     aliases:
       - webui
     cmd: bash scripts/port-forward.sh
+
+  tg-update-provider:
+    preconditions:
+      - command -v gh
+    cmd: |
+      last_release=$(gh release list --repo hetznercloud/terraform-provider-hcloud --exclude-pre-releases -L 1  --json 'name,tagName' | jq '.[].name'  | tr -d 'v' |xargs);
+      sed -i '' 's/hetzner:.*/hetzner: "'$last_release'"/' terragrunt/ai/settings.yaml
