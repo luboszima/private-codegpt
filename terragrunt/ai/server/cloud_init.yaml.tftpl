@@ -142,10 +142,6 @@ write_files:
         ollama_net:
           name: ollama_net
 
-#runcmd:
-#  - curl -fsSL https://ollama.com/install.sh | sh
-#  - service ollama start
-#  - ollama pull llama2-uncensored
 runcmd:
   - mkdir -p /home/${user_name}/data/docs
   - mkdir -p /home/${user_name}/data/ollama
@@ -170,18 +166,6 @@ runcmd:
     done;
   - |
     # pull models
-    echo "llama2-uncensored, llama2:13b" | sed 's/,/\n/g' | xargs -I {} echo "{}" | while read -r item; do
+    echo "${ai_models}" | sed 's/,/\n/g' | xargs -I {} echo "{}" | while read -r item; do
       sudo -u ${user_name} docker exec -t ollama ollama pull "$item";
     done
-
-
-#sqlite> .schema  auth
-#CREATE TABLE IF NOT EXISTS "auth" ("id" VARCHAR(255) NOT NULL, "email" VARCHAR(255) NOT NULL, "password" VARCHAR(255) NOT NULL, "active" INTEGER NOT NULL);
-#CREATE UNIQUE INDEX "auth_id" ON "auth" ("id");
-#sqlite> .schema  user
-#CREATE TABLE IF NOT EXISTS "user" ("id" VARCHAR(255) NOT NULL, "name" VARCHAR(255) NOT NULL, "email" VARCHAR(255) NOT NULL, "role" VARCHAR(255) NOT NULL, "profile_image_url" VARCHAR(255) NOT NULL, "timestamp" DATE NOT NULL);
-#CREATE UNIQUE INDEX "user_id" ON "user" ("id");
-#sqlite> select * from user;
-#888a9aaf-d777-4bf8-9a0a-b47ea343f28a|admin|admin@example.com|admin|/user.png|1711871996
-#sqlite> select * from auth;
-#888a9aaf-d777-4bf8-9a0a-b47ea343f28a|admin@example.com|$2b$12$l1MP1SZcmjB2DnLKa4KRC.i.gcG1P4QyLTtouKIcPTHYOn25zTO/W|1
