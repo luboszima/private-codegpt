@@ -69,7 +69,7 @@ tasks:
     aliases:
       - destroy
     cmds:
-      - yes | terragrunt run-all destroy --terragrunt-working-dir ./terragrunt/ai/server
+      - yes | terragrunt run-all destroy --terragrunt-working-dir ./terragrunt/ai
 
   # reset terragrunt resources
   tg-reset:
@@ -107,19 +107,9 @@ tasks:
       - webui
     cmd: bash scripts/port-forward.sh
 
-  # upload rag docs to remote server
-  upload-rag-docs:
+  tg-update-provider:
     preconditions:
-      - command -v scp
-    aliases:
-      - rag-docs
-      - upload
-    cmds:
-      - bash scripts/upload-rag-docs.sh
-      - task: restart-webui
-
-  # restart webui service on remote server
-  restart-webui:
-    preconditions:
-      - command -v ssh
-    cmd: bash scripts/restart-webui.sh
+      - command -v gh
+    cmd: |
+      last_release=$(gh release list --repo hetznercloud/terraform-provider-hcloud --exclude-pre-releases -L 1  --json 'name,tagName' | jq '.[].name'  | tr -d 'v' |xargs);
+      sed -i '' 's/hetzner:.*/hetzner: "'$last_release'"/' terragrunt/ai/settings.yaml
